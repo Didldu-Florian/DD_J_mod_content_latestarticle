@@ -29,11 +29,11 @@ $items = $articles->getLatestArticles();
 		<?php foreach ($items as $item): ?>
             <div class="span4">
                 <a href="<?php echo JRoute::_('index.php?option=com_content&view=article&id=' . $item->id); ?>">
-                    <img alt="<?php echo $this->escpae(json_decode($item->images)->image_intro_alt); ?>"
-                         src="<?php echo $this->escpae(json_decode($item->images)->image_intro); ?>"
+                    <img alt="<?php echo htmlspecialchars(json_decode($item->images)->image_intro_alt, ENT_QUOTES, 'UTF-8'); ?>"
+                         src="<?php echo htmlspecialchars(json_decode($item->images)->image_intro, ENT_QUOTES, 'UTF-8'); ?>"
                 </a>
                 <a href="<?php echo JRoute::_('index.php?option=com_content&view=article&id=' . $item->id); ?>">
-                    <h5><?php echo $this->escpae($item->title); ?>; ?></h5>
+                    <h5><?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>; ?></h5>
                 </a>
             </div>
 		<?php endforeach; ?>
