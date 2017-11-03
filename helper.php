@@ -43,6 +43,7 @@ class Mod_Content_LatestArticle_Helper
 			array(
 				'a.id',
 				'a.catid',
+				'a.alias',
 				'a.images',
 				'a.title'
 			)
@@ -51,24 +52,26 @@ class Mod_Content_LatestArticle_Helper
 		$query->select($select)
 			->from($this->db->qn('#__content', 'a'));
 
-		$query->where($this->db->qn('a.published') . ' = 1');
+		$query->where($this->db->qn('a.state') . ' = 1');
 
 		if ($this->params->get('associated_article_mode') === '1')
 		{
-			if ($this->getAssociatedItem() !== false)
+			$associatedItem = $this->getAssociatedItem();
+
+			if ($associatedItem)
 			{
 				// Exclude active article id
 				$query->where(
 					$this->db->qn('a.id') . ' <> ' .
-					(int) $this->getAssociatedItem()['inputID']
+					(int) $associatedItem['inputID']
 				);
 
 				// Only associated category articles
 				$query->where(
 					$this->db->qn('a.catid') . ' = ' .
-					(int) $this->getAssociatedItem()['catID']
+					(int) $associatedItem['catID']
 				);
-			};
+			}
 		}
 
 		$query->order('a.id DESC LIMIT 0, 3');
